@@ -171,6 +171,8 @@ func (uploader *RegularUploader) Upload(ctx context.Context, path string, conten
 	uploader.waitGroup.Add(1)
 	defer uploader.waitGroup.Done()
 
+	defer statistics.PushMetrics()
+
 	statistics.WalgMetrics.UploadedFilesTotal.Inc()
 	if uploader.tarSize != nil {
 		content = utility.NewWithSizeReader(content, uploader.tarSize)
